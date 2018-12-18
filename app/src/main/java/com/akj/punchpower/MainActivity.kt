@@ -1,5 +1,8 @@
 package com.akj.punchpower
 
+import android.animation.Animator
+import android.animation.AnimatorInflater
+import android.animation.AnimatorListenerAdapter
 import android.content.Context
 import android.content.Intent
 import android.hardware.Sensor
@@ -9,8 +12,6 @@ import android.hardware.SensorManager
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
-import android.view.animation.Animation
-import android.view.animation.AnimationUtils
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -94,20 +95,33 @@ class MainActivity : AppCompatActivity() {
 //        imageView.startAnimation(AnimationUtils.loadAnimation(this@MainActivity, R.anim.alpha_scale))
 
         // 애니메이션 시작
-        val animation = AnimationUtils.loadAnimation(this@MainActivity, R.anim.alpha_scale)
-        imageView.startAnimation(animation)
-        // 애니메이션의 리스너 설정
-        animation.setAnimationListener(object : Animation.AnimationListener {
-            override fun onAnimationRepeat(animation: Animation?) {
-                // 애니메이션이 반복될때의 처리 코드를 작성
-            }
-            override fun onAnimationEnd(animation: Animation?) {
-                // 애니메이션이 종료될때의 코드를 작성
-            }
-            override fun onAnimationStart(animation: Animation?) {
-                // 애니메이션이 시작될때의 코드를 작성
-            }
-        })
+//        val animation = AnimationUtils.loadAnimation(this@MainActivity, R.anim.alpha_scale)
+//        imageView.startAnimation(animation)
+//        // 애니메이션의 리스너 설정
+//        animation.setAnimationListener(object : Animation.AnimationListener {
+//            override fun onAnimationRepeat(animation: Animation?) {
+//                // 애니메이션이 반복될때의 처리 코드를 작성
+//            }
+//            override fun onAnimationEnd(animation: Animation?) {
+//                // 애니메이션이 종료될때의 코드를 작성
+//            }
+//            override fun onAnimationStart(animation: Animation?) {
+//                // 애니메이션이 시작될때의 코드를 작성
+//            }
+//        })
+
+        // 속성 애니메이션을 불러옴 apply 함수를 사용하면 로딩된 Animator 가 this 로 지정됨
+        AnimatorInflater.loadAnimator(this@MainActivity, R.animator.property_animation).apply {
+            // 애니메이션 종료 리스너를 추가
+            addListener(object : AnimatorListenerAdapter(){
+                // 애니메이션이 종료될때 애니메이션을 다시 시작
+                override fun onAnimationEnd(animation: Animator?) { start() }
+            })
+            // 속성 애니메이션의 타겟을 글로브 이미지뷰로 지정
+            setTarget(imageView)
+            // 애니메이션 시작
+            start()
+        }
     }
 
     // 펀치력 측정이 완료된 경우 처리 함수
