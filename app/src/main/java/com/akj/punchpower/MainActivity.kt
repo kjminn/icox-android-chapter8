@@ -9,6 +9,7 @@ import android.hardware.SensorManager
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
+import android.view.animation.AnimationUtils
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -84,6 +85,10 @@ class MainActivity : AppCompatActivity() {
             sensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION),
             SensorManager.SENSOR_DELAY_NORMAL
         )
+
+//        imageView.startAnimation(AnimationUtils.loadAnimation(this@MainActivity, R.anim.tran))
+//        imageView.startAnimation(AnimationUtils.loadAnimation(this@MainActivity, R.anim.rotate))
+        imageView.startAnimation(AnimationUtils.loadAnimation(this@MainActivity, R.anim.alpha_scale))
     }
 
     // 펀치력 측정이 완료된 경우 처리 함수
