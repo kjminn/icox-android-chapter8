@@ -1,8 +1,8 @@
 package com.akj.punchpower
 
-import android.animation.Animator
 import android.animation.AnimatorInflater
-import android.animation.AnimatorListenerAdapter
+import android.animation.ArgbEvaluator
+import android.animation.ObjectAnimator
 import android.content.Context
 import android.content.Intent
 import android.hardware.Sensor
@@ -111,16 +111,30 @@ class MainActivity : AppCompatActivity() {
 //        })
 
         // 속성 애니메이션을 불러옴 apply 함수를 사용하면 로딩된 Animator 가 this 로 지정됨
-        AnimatorInflater.loadAnimator(this@MainActivity, R.animator.property_animation).apply {
-            // 애니메이션 종료 리스너를 추가
-            addListener(object : AnimatorListenerAdapter(){
-                // 애니메이션이 종료될때 애니메이션을 다시 시작
-                override fun onAnimationEnd(animation: Animator?) { start() }
-            })
-            // 속성 애니메이션의 타겟을 글로브 이미지뷰로 지정
-            setTarget(imageView)
-            // 애니메이션 시작
-            start()
+//        AnimatorInflater.loadAnimator(this@MainActivity, R.animator.property_animation).apply {
+//            // 애니메이션 종료 리스너를 추가
+//            addListener(object : AnimatorListenerAdapter(){
+//                // 애니메이션이 종료될때 애니메이션을 다시 시작
+//                override fun onAnimationEnd(animation: Animator?) { start() }
+//            })
+//            // 속성 애니메이션의 타겟을 글로브 이미지뷰로 지정
+//            setTarget(imageView)
+//            // 애니메이션 시작
+//            start()
+//        }
+
+        AnimatorInflater.loadAnimator(this@MainActivity, R.animator.color_anim).apply {
+            // 컬러 애니메이션을 불러오고 ObjectAnimator 클래스로 캐스팅
+            val colorAnimator = this@apply as? ObjectAnimator
+            // colorAnimator 가 ObjectAnimator 인 경우에만 실행
+            colorAnimator?.apply {
+                // Evaluator 를 ArgbEvaluator() 로 설정
+                setEvaluator(ArgbEvaluator())
+                // 타겟을 액티비티의 컨텐트 뷰로 지정
+                target = window.decorView.findViewById(android.R.id.content)
+                // 애니메이션 시작
+                start()
+            }
         }
     }
 
