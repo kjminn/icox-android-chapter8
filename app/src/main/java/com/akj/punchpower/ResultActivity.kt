@@ -12,7 +12,7 @@ import com.google.android.gms.games.Games
 import kotlinx.android.synthetic.main.activity_result.*
 
 class ResultActivity : AppCompatActivity() {
-    val RC_SIGN_IN = 9001
+    val RC_SIGN_IN = 9001 
     val RC_LEADERBOARD_UI = 9004
     val signInClient: GoogleSignInClient by lazy {
         GoogleSignIn.getClient(this@ResultActivity, GoogleSignInOptions.DEFAULT_GAMES_SIGN_IN)
